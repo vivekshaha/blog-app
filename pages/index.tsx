@@ -42,10 +42,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
   //fetching artilces
   const qs = require("qs");
   const queryString = qs.stringify(options);
-  console.log(queryString);
+  console.log("thissss", queryString);
   const { data: articles }: AxiosResponse<ICollectionResponse<IArticle[]>> =
     await fetchArtilces(queryString);
-  console.log(JSON.stringify(articles));
 
   //featching categoreis
   const { data: categories }: AxiosResponse<ICollectionResponse<ICategory[]>> =

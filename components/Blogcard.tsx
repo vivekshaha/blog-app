@@ -8,7 +8,6 @@ interface IPropType {
   article: IArticle;
 }
 const Blogcard = ({ article }: IPropType) => {
-  console.log(article);
   return (
     <>
       <div>
@@ -29,7 +28,7 @@ const Blogcard = ({ article }: IPropType) => {
             {article.attributes.author.data.attributes.lastname} on &nbsp;
           </span>
           <span>{fromatDate(article.attributes.createdAt)}</span>
-          <div className="text-gray-500 mt-10 ">
+          <div className="mt-10 text-gray-500 ">
             {article.attributes.shortDescription.slice(0, 250)}...
           </div>
         </div>
