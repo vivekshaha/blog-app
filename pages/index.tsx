@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ICollectionResponse } from "@/types";
+import { ICollectionResponse, IPagination, IQuearyOptions } from "@/types";
 
 import { GetServerSideProps } from "next";
 import { fetchArtilces, fetchCategories } from "@/http";
@@ -7,6 +7,9 @@ import { ICategory, IArticle } from "@/types";
 import { AxiosResponse } from "axios";
 import Tabs from "@/components/Tabs";
 import ArticlesList from "@/components/ArticlesList";
+import Pagination from "@/components/Pagination";
+import { useRouter } from "next/router";
+import { debounce } from "@/utils";
 
 interface IPropTypes {
   categories: {
@@ -14,11 +17,18 @@ interface IPropTypes {
   };
   articles: {
     items: IArticle[];
+    pagination: IPagination;
   };
 }
 
 export default function Home({ categories, articles }: IPropTypes) {
-  console.log(articles);
+  const { page, pageCount } = articles.pagination;
+  const router = useRouter();
+  const handleSearch = (query: string) => {
+    router.push(`?search=${query}`);
+    // console.log(query);/
+  };
+
   return (
     <div>
       <Head>
@@ -27,22 +37,38 @@ export default function Home({ categories, articles }: IPropTypes) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Tabs categories={categories.items} />
+
+      <Tabs
+        categories={categories.items}
+        handleOnSearch={debounce(handleSearch, 500)}
+      />
       <ArticlesList articles={articles.items} />
+      <Pagination page={page} pageCount={pageCount} />
     </div>
   );
 }
+// code for server side rendering;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const options = {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const options: Partial<IQuearyOptions> = {
     populate: ["author.avatar"],
     sort: ["id:desc"],
+    pagination: {
+      page: query.page ? +query.page : 1,
+      pageSize: 1,
+    },
   };
+
+  if (query.search) {
+    options.filters = {
+      Title: { $containsi: query.search },
+    };
+  }
 
   //fetching artilces
   const qs = require("qs");
   const queryString = qs.stringify(options);
-  console.log("thissss", queryString);
+
   const { data: articles }: AxiosResponse<ICollectionResponse<IArticle[]>> =
     await fetchArtilces(queryString);
 

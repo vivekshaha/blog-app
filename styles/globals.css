@@ -2,3 +2,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .single-article h1 {
+    @apply py-2 text-3xl font-bold;
+  }
+
+  .single-article h2 {
+    @apply py-2 text-xl font-bold;
+  }
+
+  .single-article h3 {
+    @apply py-2 text-lg font-bold;
+  }
+
+  .single-article pre {
+    @apply p-2 my-6 text-green-500 bg-gray-100;
+  }
+
+  .single-article blockquote {
+    @apply p-4 my-4 text-gray-500 bg-gray-100 border-l-4 border-primary;
+  }
+}

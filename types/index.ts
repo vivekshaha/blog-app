@@ -1,3 +1,5 @@
+import { MDXRemoteSerializeResult } from "next-mdx-remote";
+
 export interface ICategory {
   id: number;
   attributes: ICategoryAttribute;
@@ -58,9 +60,9 @@ export interface IAuthor {
 }
 export interface IArticlesAttribute {
   Title: string;
-  body: string;
-  slug: string;
-  Image: IImageData;
+  body: string | MDXRemoteSerializeResult;
+  Slug: string;
+  image: IImageData;
   createdAt: string;
   author: IAuthor;
   shortDescription: string;
@@ -69,4 +71,16 @@ export interface IArticlesAttribute {
 export interface IArticle {
   id: number;
   attributes: IArticlesAttribute;
+}
+
+export type TDirection = 1 | -1;
+
+export interface IQuearyOptions {
+  filters: any;
+  sort: any;
+  populate: any;
+  pagination: {
+    page: number;
+    pageSize: number;
+  };
 }

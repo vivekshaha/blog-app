@@ -2,7 +2,6 @@ import { IArticle } from "@/types";
 import React from "react";
 import Blogcard from "./Blogcard";
 import BlogCardWithImage from "./BlogCardWithImage";
-import Pagination from "./Pagination";
 
 interface IPropType {
   articles: IArticle[];
@@ -20,10 +19,7 @@ const ArticlesList = ({ articles }: IPropType) => {
           }
         })}
       </div>
-      <div>
-        {" "}
-        <Pagination />
-      </div>
+      <div> </div>
     </>
   );
 };

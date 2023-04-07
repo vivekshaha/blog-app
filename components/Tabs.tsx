@@ -6,17 +6,16 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 interface IPropType {
   categories: ICategory[];
+  handleOnSearch: (query: string) => void;
 }
 
-const Tabs = ({ categories }: IPropType) => {
+const Tabs = ({ categories, handleOnSearch }: IPropType) => {
   const router = useRouter();
 
   const isActiveLink = (category: ICategory) => {
     return category.attributes.Slug === router.query.category;
   };
-  const handleOnSearch = (query: string) => {
-    console.log("handling serch", query);
-  };
+
   return (
     <div className="flex justify-between my-8 border-b-2 border-gray-100">
       <ul className="flex">
